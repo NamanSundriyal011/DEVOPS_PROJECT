@@ -1,0 +1,498 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Construction Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --amber: #E07B00;
+        --amber-light: #FFF3E0;
+        --amber-glow: rgba(224,123,0,0.12);
+        --charcoal: #FFFFFF;
+        --dark: #F4F2EE;
+        --surface: #FFFFFF;
+        --surface2: #F9F7F4;
+        --border: rgba(0,0,0,0.09);
+        --text: #1C1C1C;
+        --muted: #888;
+        --success: #2E7D52;
+        --error: #C0392B;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--dark);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      /* === HEADER STRIPE === */
+      .header-stripe {
+        background: var(--amber);
+        height: 6px;
+        width: 100%;
+      }
+
+      /* === HEADER === */
+      header {
+        background: #FFFFFF;
+        padding: 28px 48px 22px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: '';
+        position: absolute;
+        top: -60px; right: -60px;
+        width: 220px; height: 220px;
+        background: var(--amber-glow);
+        border-radius: 50%;
+        filter: blur(60px);
+        pointer-events: none;
+      }
+
+      .header-icon {
+        font-size: 2.4rem;
+        line-height: 1;
+      }
+
+      .header-text h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.6rem;
+        letter-spacing: 3px;
+        color: var(--text);
+        line-height: 1;
+      }
+
+      .header-text p {
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin-top: 3px;
+        letter-spacing: 0.5px;
+      }
+
+      .header-badge {
+        margin-left: auto;
+        background: var(--amber);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.72rem;
+        padding: 4px 10px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      /* === MAIN LAYOUT === */
+      .main {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 0;
+        min-height: calc(100vh - 110px);
+      }
+
+      /* === SIDEBAR === */
+      .sidebar {
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        padding: 36px 28px;
+        position: relative;
+      }
+
+      .sidebar::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--amber), transparent);
+      }
+
+      .form-section-label {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.05rem;
+        letter-spacing: 2.5px;
+        color: var(--amber);
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .form-section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 7px;
+      }
+
+      input {
+        display: block;
+        width: 100%;
+        padding: 12px 14px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        outline: none;
+      }
+
+      input::placeholder { color: #bbb; }
+
+      input:focus {
+        border-color: var(--amber);
+        box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+      }
+
+      .form-group { margin-bottom: 6px; }
+
+      button {
+        width: 100%;
+        padding: 13px;
+        background: var(--amber);
+        color: #fff;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.92rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+        margin-top: 4px;
+      }
+
+      button:hover {
+        background: #ffb83d;
+        box-shadow: 0 4px 20px rgba(245,166,35,0.3);
+      }
+
+      button:active { transform: scale(0.98); }
+
+      .msg {
+        margin-top: 14px;
+        padding: 10px 14px;
+        border-radius: 7px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: none;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .msg.show { display: block; }
+      .msg.success { background: rgba(76,175,128,0.12); border: 1px solid rgba(76,175,128,0.25); color: var(--success); }
+      .msg.error { background: rgba(224,85,85,0.1); border: 1px solid rgba(224,85,85,0.25); color: var(--error); }
+
+      /* === CONTENT === */
+      .content {
+        padding: 36px 40px;
+        background: var(--dark);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+      }
+
+      .section-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 3px;
+        color: var(--text);
+      }
+
+      .project-count {
+        background: var(--amber-light);
+        color: var(--amber);
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(224,123,0,0.18);
+        letter-spacing: 0.5px;
+      }
+
+      /* === TABLE === */
+      .table-wrap {
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: var(--surface2);
+      }
+
+      th {
+        padding: 13px 18px;
+        text-align: left;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+      }
+
+      td {
+        padding: 14px 18px;
+        font-size: 0.9rem;
+        color: var(--text);
+        border-bottom: 1px solid var(--border);
+      }
+
+      tbody tr:last-child td { border-bottom: none; }
+
+      tbody tr {
+        transition: background 0.15s;
+        animation: rowIn 0.3s ease both;
+      }
+
+      tbody tr:hover { background: var(--surface2); }
+
+      .id-cell {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+        color: var(--amber);
+      }
+
+      .name-cell { font-weight: 500; }
+
+      .budget-cell {
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .budget-badge {
+        display: inline-block;
+        background: var(--amber-light);
+        color: var(--amber);
+        padding: 3px 10px;
+        border-radius: 5px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        border: 1px solid rgba(224,123,0,0.18);
+      }
+
+      /* === EMPTY STATE === */
+      .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      .empty-state .empty-icon {
+        font-size: 2.8rem;
+        margin-bottom: 14px;
+        opacity: 0.4;
+      }
+
+      .empty-state p {
+        font-size: 0.9rem;
+        opacity: 0.6;
+      }
+
+      /* === DIVIDER LINE === */
+      .diag-bar {
+        height: 4px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--amber) 0px,
+          var(--amber) 12px,
+          transparent 12px,
+          transparent 20px
+        );
+        opacity: 0.35;
+        margin-bottom: 28px;
+        border-radius: 2px;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes rowIn {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @media (max-width: 750px) {
+        .main { grid-template-columns: 1fr; }
+        header { padding: 20px 20px 16px; }
+        .content { padding: 24px 16px; }
+        .sidebar { padding: 24px 16px; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="header-stripe"></div>
+
+    <header>
+      <div class="header-icon">🏗️</div>
+      <div class="header-text">
+        <h1>Construction Projects</h1>
+        <p>Project management dashboard</p>
+      </div>
+      <div class="header-badge">⚡ Live</div>
+    </header>
+
+    <div class="main">
+
+      <!-- SIDEBAR FORM -->
+      <aside class="sidebar">
+        <div class="form-section-label">New Project</div>
+
+        <div class="form-group">
+          <label>Project Name</label>
+          <input id="name" placeholder="e.g., Mall Project" />
+        </div>
+
+        <div class="form-group">
+          <label>Budget (USD)</label>
+          <input id="budget" type="number" placeholder="e.g., 150000" />
+        </div>
+
+        <button onclick="addProject()">⊕ &nbsp;Create Project</button>
+
+        <div class="msg" id="msg"></div>
+      </aside>
+
+      <!-- CONTENT AREA -->
+      <section class="content">
+        <div class="diag-bar"></div>
+
+        <div class="section-header">
+          <div class="section-title">All Projects</div>
+          <div class="project-count" id="projectCount">0 projects</div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Project Name</th>
+                <th>Budget</th>
+              </tr>
+            </thead>
+            <tbody id="projectRows">
+              <tr>
+                <td colspan="3">
+                  <div class="empty-state">
+                    <div class="empty-icon">🚧</div>
+                    <p>No projects yet. Add one to get started.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <script>
+      function formatBudget(val) {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+      }
+
+      async function loadProjects() {
+        const res = await fetch("/projects");
+        const data = await res.json();
+        const tbody = document.getElementById("projectRows");
+        const counter = document.getElementById("projectCount");
+
+        counter.textContent = data.length + (data.length === 1 ? ' project' : ' projects');
+
+        if (data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="3"><div class="empty-state"><div class="empty-icon">🚧</div><p>No projects yet. Add one to get started.</p></div></td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = "";
+        data.forEach((p, i) => {
+          const tr = document.createElement("tr");
+          tr.style.animationDelay = (i * 0.05) + 's';
+          tr.innerHTML = `
+            <td class="id-cell">#${String(p.id).padStart(3,'0')}</td>
+            <td class="name-cell">${p.name}</td>
+            <td class="budget-cell"><span class="budget-badge">${formatBudget(p.budget)}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function addProject() {
+        const name = document.getElementById("name").value.trim();
+        const budget = Number(document.getElementById("budget").value);
+        const msgEl = document.getElementById("msg");
+
+        msgEl.className = 'msg';
+        msgEl.textContent = '';
+
+        if (!name || !budget) {
+          msgEl.textContent = "❌ Please enter both name and budget.";
+          msgEl.className = 'msg show error';
+          return;
+        }
+
+        const res = await fetch("/projects", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, budget })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          msgEl.textContent = "❌ " + (data.error || "Something went wrong");
+          msgEl.className = 'msg show error';
+          return;
+        }
+
+        msgEl.textContent = `✅ Project created — ID #${String(data.id).padStart(3,'0')}`;
+        msgEl.className = 'msg show success';
+        document.getElementById("name").value = "";
+        document.getElementById("budget").value = "";
+        loadProjects();
+      }
+
+      loadProjects();
+    </script>
+  </body>
+</html>

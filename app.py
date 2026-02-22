@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ projects = [
 
 @app.get("/")
 def home():
-    return "Construction Service Running 🚧"
+    return render_template("index.html")
 
 @app.get("/health")
 def health():
